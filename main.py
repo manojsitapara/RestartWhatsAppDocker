@@ -15,7 +15,7 @@ def send_telegram_message_to_admin(message, is_critical_error=False):
 if __name__ == "__main__":
     start_time = time.time()
     while True:
-        send_telegram_message_to_admin("WhatsApp Container Restart Job Started.")
+        send_telegram_message_to_admin("WhatsApp Container Restart Job Started..")
         client = docker.from_env()
         container_results = client.containers.list()
         for container in container_results:
