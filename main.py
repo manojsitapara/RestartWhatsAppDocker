@@ -1,5 +1,6 @@
 import os
-
+from datetime import datetime
+import pytz
 import docker
 import requests
 import time
@@ -26,13 +27,23 @@ def send_telegram_message_to_admin(message):
 
 
 if __name__ == "__main__":
+    #eastern = pytz.timezone('Asia/Kolkata')
+    # india_time_zone = pytz.timezone('Asia/Kolkata')
+    # ams_dt = loc_dt.astimezone(india_time_zone)
+
+    import pytz
+
+    tz = pytz.timezone('Asia/Kolkata')
+    ist_time_now = datetime.now(tz)
+
     start_time = time.time()
     if restart_docker_container_url is None:
         raise Exception("Please specify the docker URL")
     while True:
-        send_telegram_message_to_admin("WhatsApp Container Restart Job Started..")
-        restart_containers()
-        send_telegram_message_to_admin("WhatsApp Container Restart Job Completed.")
-        if time_interval_seconds is None:
-            time_interval_seconds = 43200
-        time.sleep(int(time_interval_seconds) - ((time.time() - start_time) % int(time_interval_seconds)))
+        if ist_time_now.hour == 2:
+            send_telegram_message_to_admin("WhatsApp Container Restart Job Started..")
+            restart_containers()
+            send_telegram_message_to_admin("WhatsApp Container Restart Job Completed.")
+            if time_interval_seconds is None:
+                time_interval_seconds = 43200
+            time.sleep(int(time_interval_seconds) - ((time.time() - start_time) % int(time_interval_seconds)))
